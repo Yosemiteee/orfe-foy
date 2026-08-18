@@ -288,7 +288,7 @@ async function ac(no) {
   bas("p-alt").innerHTML = [
     o.baslik,
     olcuSatiri,
-    `${o.ucgenSayisi.toLocaleString("tr-TR")} üçgen`,
+    `${o.ucgenSayisi.toLocaleString("tr-TR")} üçgen (metal + taş)`,
     agirlik(o) ?? "",
   ].filter(Boolean).map((x) => `<span>${esc(x)}</span>`).join("");
   perde.setAttribute("open", "");
