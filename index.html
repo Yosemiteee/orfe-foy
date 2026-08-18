@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Orfe · Ne Yazıldı, Ne Çıktı</title>
+<meta name="description" content="Türkçe tasarımcı promptlarından doğrudan üretilen takı tasarımları. Her tasarım 3B incelenebilir, STL ve 3DM olarak indirilebilir." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>💍</text></svg>" />
+<style>
+:root{
+  --zemin:#F1F3F5; --yuzey:#FFFFFF; --panel:#E7EBEF; --murekkep:#14181C; --soluk:#646C76;
+  --cizgi:#D9DEE4; --vurgu:#0F5C6B; --vurgu-zemin:#0F5C6B14;
+  --uyari:#8A4310; --uyari-zemin:#8A431014; --plaka:#F8F8F6;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --zemin:#0E1013; --yuzey:#171A1F; --panel:#1C2128; --murekkep:#E6E9ED; --soluk:#8B939D;
+  --cizgi:#262C34; --vurgu:#5CC6D6; --vurgu-zemin:#5CC6D61f;
+  --uyari:#E2A96B; --uyari-zemin:#E2A96B1f;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--zemin);color:var(--murekkep);font-family:var(--sans);
+  font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.sar{max-width:1180px;margin:0 auto;padding:clamp(24px,5vw,56px) clamp(14px,4vw,32px) 72px}
+.ust{border-bottom:2px solid var(--murekkep);padding-bottom:20px}
+h1{font-size:clamp(28px,5vw,42px);line-height:1.05;letter-spacing:-.03em;font-weight:700;
+  margin:0 0 12px;text-wrap:balance}
+.alt{color:var(--soluk);max-width:64ch;margin:0 0 18px;font-size:15.5px}
+.sayac{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:12px;
+  color:var(--soluk);font-variant-numeric:tabular-nums}
+.sayac b{color:var(--murekkep);font-weight:600}
+
+.bolum{margin-top:44px}
+.bolum-bas{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  border-bottom:1px solid var(--cizgi);padding-bottom:8px;margin-bottom:20px}
+.bolum-bas h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin:0;font-weight:650}
+.bolum-bas p{margin:0;color:var(--soluk);font-size:13px}
+
+.izgara{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:640px){.izgara{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.izgara{grid-template-columns:repeat(3,1fr)}}
+
+.kart{background:var(--yuzey);border:1px solid var(--cizgi);border-radius:3px;
+  overflow:hidden;display:flex;flex-direction:column}
+.kapak{position:relative;background:var(--plaka);border-bottom:1px solid var(--cizgi);
+  width:100%;border:0;padding:0;cursor:pointer;display:block;font:inherit;color:inherit}
+.kapak img{width:100%;height:auto;display:block}
+.kapak .rozet{position:absolute;right:9px;bottom:9px;background:var(--murekkep);
+  color:var(--yuzey);font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;padding:5px 10px;border-radius:2px;opacity:.9}
+.kapak:hover .rozet,.kapak:focus-visible .rozet{opacity:1;background:var(--vurgu);color:#fff}
+.kapak:focus-visible{outline:2px solid var(--vurgu);outline-offset:-2px}
+
+.govde{padding:15px 16px 16px;display:flex;flex-direction:column;flex:1}
+.etiket{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--soluk);margin:0 0 5px}
+.prompt{font-family:var(--mono);font-size:13px;line-height:1.45;margin:0 0 12px;
+  background:var(--vurgu-zemin);border-left:2px solid var(--vurgu);padding:9px 11px}
+.okunan{margin:0 0 12px;display:flex;flex-wrap:wrap;gap:4px}
+.okunan span{font-size:11.5px;background:var(--panel);border:1px solid var(--cizgi);
+  padding:2px 7px;border-radius:2px}
+.uyari,.ayarnot{margin:0 0 12px;font-size:12.5px;padding:7px 10px;border-radius:2px;
+  background:var(--uyari-zemin);color:var(--uyari)}
+.ayarnot{background:var(--panel);color:var(--soluk)}
+.kunye{margin:0 0 14px;padding-top:12px;border-top:1px solid var(--cizgi);
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:9px 14px}
+.kv dt{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--soluk);margin:0 0 1px}
+.kv dd{margin:0;font-size:13px;font-variant-numeric:tabular-nums}
+
+.indir{margin-top:auto;padding-top:12px;border-top:1px solid var(--cizgi);
+  display:flex;flex-wrap:wrap;gap:6px}
+.indir a{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-decoration:none;
+  color:var(--murekkep);background:var(--panel);border:1px solid var(--cizgi);
+  padding:5px 9px;border-radius:2px;display:inline-flex;gap:6px;align-items:baseline}
+.indir a:hover{border-color:var(--vurgu);color:var(--vurgu)}
+.indir a small{color:var(--soluk);font-size:10px}
+.indir a:hover small{color:var(--vurgu)}
+
+/* ---------- 3B görüntüleyici ---------- */
+.perde{position:fixed;inset:0;background:var(--zemin);z-index:50;display:none;
+  flex-direction:column}
+.perde[open]{display:flex}
+.perde-ust{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:11px clamp(12px,3vw,20px);border-bottom:1px solid var(--cizgi);background:var(--yuzey)}
+.perde-ust .ad{font-size:14px;font-weight:600;margin-right:auto;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dugme{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;cursor:pointer;
+  color:var(--murekkep);background:var(--panel);border:1px solid var(--cizgi);
+  padding:6px 11px;border-radius:2px}
+.dugme[aria-pressed="true"]{background:var(--vurgu);border-color:var(--vurgu);color:#fff}
+.dugme:hover{border-color:var(--vurgu)}
+.dugme:focus-visible{outline:2px solid var(--vurgu);outline-offset:2px}
+.sahne{flex:1;position:relative;min-height:0;background:var(--plaka)}
+.sahne canvas{display:block;width:100%;height:100%;touch-action:none}
+.durum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:13px;color:var(--soluk);pointer-events:none;text-align:center;padding:20px}
+.perde-alt{padding:9px clamp(12px,3vw,20px);border-top:1px solid var(--cizgi);
+  background:var(--yuzey);font-family:var(--mono);font-size:11px;color:var(--soluk);
+  display:flex;gap:8px 18px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+
+.dip{margin-top:52px;padding-top:20px;border-top:1px solid var(--cizgi);
+  color:var(--soluk);font-size:13.5px;max-width:72ch}
+.dip p{margin:0 0 11px}
+.dip b{color:var(--murekkep);font-weight:600}
+</style>
+</head>
+<body>
+<div class="sar">
+  <header class="ust">
+    <h1>Ne yazıldı, ne çıktı</h1>
+    <p class="alt">Aşağıdaki her tasarım, üstündeki cümleden doğrudan üretildi — elle düzeltme,
+    seçme ya da rötuş yok. Görsele tıklayınca modeli <b>3 boyutlu döndürerek</b> inceleyebilir,
+    kartın altından <b>STL</b> ve <b>3DM</b> dosyalarını indirebilirsiniz.</p>
+    <div class="sayac" id="sayac"></div>
+  </header>
+  <main id="icerik"></main>
+  <div class="dip">
+    <p><b>Sayılar nereden geliyor:</b> gramaj metalin gerçek hacminden, taş adedi ve karat
+    yerleştirilen taşlardan hesaplanıyor — tahmin yok. <b>Tek parça · su geçirmez</b>, dosyanın
+    döküme gidebilir olduğu anlamına gelir: gövde kopuk değil, içinde hapis boşluk yok.</p>
+    <p><b>“Okunan” satırı</b> sistemin cümleden ne anladığıdır. Anlaşılmayan bir sözcük kalırsa
+    ayrı renkte yazılır; sessizce yok sayılmaz. <b>“Üretim için düzeltildi”</b> ise istenen
+    ölçünün üretilemez olduğu ve nereye çekildiğidir.</p>
+    <p><b>İki ayrı katı çıkıyor:</b> <b>render</b> dosyasında tırnaklar taşın üstüne yatık
+    (müşteriye gösterilen hâli), <b>döküm</b> dosyasında dik (atölyeye giden hâli — taş sonradan
+    oturuyor). <b>3DM</b> Rhino 5 uyumludur.</p>
+  </div>
+</div>
+
+<div class="perde" id="perde" role="dialog" aria-modal="true" aria-label="3B inceleme">
+  <div class="perde-ust">
+    <span class="ad" id="p-ad"></span>
+    <button class="dugme" id="p-render" aria-pressed="true">render</button>
+    <button class="dugme" id="p-dokum" aria-pressed="false">döküm</button>
+    <button class="dugme" id="p-tas" aria-pressed="true">taşlar</button>
+    <button class="dugme" id="p-tel" aria-pressed="false">tel kafes</button>
+    <button class="dugme" id="p-sifirla">görünümü sıfırla</button>
+    <button class="dugme" id="p-kapat">kapat ✕</button>
+  </div>
+  <div class="sahne" id="sahne"><div class="durum" id="p-durum">yükleniyor…</div></div>
+  <div class="perde-alt" id="p-alt"></div>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"./vendor/three.module.min.js"}}
+</script>
+<script type="module" src="./app.js"></script>
+</body>
+</html>

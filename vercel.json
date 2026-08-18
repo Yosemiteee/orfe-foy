@@ -1,0 +1,18 @@
+{
+  "headers": [
+    {
+      "source": "/m/(.*).stl",
+      "headers": [
+        { "key": "Content-Type", "value": "model/stl" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/m/(.*).3dm",
+      "headers": [
+        { "key": "Content-Type", "value": "application/octet-stream" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    }
+  ]
+}
